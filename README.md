@@ -39,7 +39,8 @@ backend/
   features/search/
     data.py                            # Loads DOCUMENTS into memory
     models.py                          # Pydantic models (Document, SearchRequest, SearchResult)
-    search_router.py                   # Your backend task lives here
+    search_router.py                   # Your backend task lives
+    scoring.py                         # Your backend scoring task here
 frontend/
   src/lib/api.ts                       # Helper to call /api/search
   src/features/search/SearchPage.tsx   # Your frontend task lives here
