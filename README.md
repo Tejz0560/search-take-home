@@ -5,6 +5,31 @@ This repo contains a small FastAPI backend and a TypeScript frontend. Your task 
 1. A simple search endpoint + client utilities
 2. A small streaming endpoint that streams text from a `.txt` file to the browser (Server-Sent Events)
 
+## On AI Tools
+
+We use AI tools daily and expect most candidates do too, that's fine. Tell us about your workflow in the PR description or during review; we're genuinely curious how you work with them.
+
+That said, this exercise is designed to evaluate _your_ engineering judgment, not the raw output of a model.
+
+We can usually tell the difference between:
+
+- Someone using AI as a force multiplier
+- Someone submitting largely unreviewed AI-generated code
+
+The latter will not score well.
+
+What we’re looking for:
+
+- **You understand every line you submit.** You should be able to clearly explain design choices during review.
+- **Deliberate, opinionated code.** Naming, structure, error handling, and tradeoffs should reflect intent, not default scaffolding.
+- **Human-level code quality.** Clear, consistent, and maintainable. Avoid unnecessary abstractions, generic boilerplate, or over-engineered patterns.
+- **Ownership of the final result.** AI can help you move faster, but the final code should feel cohesive and thoughtfully reviewed.
+
+Optional (but encouraged):
+Include a short “AI Usage” note in your PR describing how you used AI (e.g., ideation, debugging, refactoring) and what you chose to accept, modify, or reject.
+
+Use AI freely. Just make sure the submission represents your thinking and standards.
+
 ## What You Need to Build
 
 ### 1. Backend: `POST /api/search`
@@ -17,8 +42,8 @@ Your job:
 - Create and utilize FAISS vector database in [`backend/features/search/integrations.py`](backend/features/search/integrations.py:1)
 - Implement a `CypherQuery` pydantic `BaseModel` class in [`backend/features/search/models.py`](backend/features/search/models.py:1), with its own `__str__` function that returns itself as a Cypher Query
 - Implement a prototype `text_to_cypher` function, which utilizes langchain LLMs, the `CypherQuery`, and `with_structured_output` to create a query from natural language
-- Search the FAISS index using the natural language query AND the `CypherQuery`
-- Search the knowledgegraph using the mock function (0.0-1.0 range)
+- Search the FAISS index using the natural language query
+- Search the knowledgegraph using the mock function (0.0-1.0 range) with the `CypherQuery`
 - Return the top `k` results as `SearchResult` objects.
 - Keep the code clean, readable and maintainable.
 
