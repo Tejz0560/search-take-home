@@ -14,6 +14,7 @@ from langchain_core.output_parsers import PydanticOutputParser
 from .models import SearchResult, CypherQuery
 
 
+
 async def text_to_cypher(text: str) -> CypherQuery | None:
     """Convert a natural language text query into a :class:`CypherQuery`.
 
