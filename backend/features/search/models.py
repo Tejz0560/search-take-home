@@ -21,10 +21,20 @@ class SearchEntry(BaseModel):
 
 
 class CypherQuery(BaseModel):
-    """Fields that can be converted to a Cypher Query in natural language."""
+    """Represents a Cypher query generated from natural language.
 
-    # TODO
+    The model is intentionally minimal for the prototype: a single field
+    containing the actual query string.  Converters use ``__str__`` to obtain
+    the text form when constructing or executing the query.
+    """
+
+    cypher: str
 
     def __str__(self) -> str:
-        """TODO"""
-        return ""
+        """Return the contained Cypher query verbatim.
+
+        This allows code that works with ``CypherQuery`` instances to treat them
+        as strings when needed, for example when appending to log messages or
+        passing to downstream search functions.
+        """
+        return self.cypher

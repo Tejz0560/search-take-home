@@ -5,6 +5,12 @@ from features.search.router import router as search_router
 from features.streaming.router import router as streaming_router
 
 app = FastAPI(title="Search Take-Home")
+
+# simple root health/landing endpoint
+@app.get("/")
+async def root():
+    return {"message": "Search API is up – hit /api/search or /docs"}
+
 app.include_router(search_router, prefix="/api")
 app.include_router(streaming_router, prefix="/api")
 

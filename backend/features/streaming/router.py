@@ -59,10 +59,20 @@ async def stream_notepad(
         raise HTTPException(status_code=404, detail=f"File not found: {file_path}")
 
     async def event_generator() -> AsyncIterator[bytes]:
-        # TODO (candidate): yield SSE events that stream `file_path` progressively.
-        yield _sse(
-            "TODO: implement SSE streaming in backend/features/streaming/router.py",
-            event="todo",
-        ).encode("utf-8")
+        # open the file in text mode and stream its contents in chunks
+        try:
+            with file_path.open("r", encoding="utf-8") as f:
+                while True:
+                    chunk = f.read(chunk_size)
+                    if not chunk:  # EOF
+                        break
+                    # format as SSE; event name omitted since simple text
+                    yield _sse(chunk).encode("utf-8")
+                    if delay_ms:
+                        # convert milliseconds to seconds
+                        await asyncio.sleep(delay_ms / 1000)
+        except Exception as e:
+            # if reading fails unexpectedly, terminate the stream with an error
+            yield _sse(f"error reading file: {e}", event="error").encode("utf-8")
 
     return StreamingResponse(event_generator(), media_type="text/event-stream")

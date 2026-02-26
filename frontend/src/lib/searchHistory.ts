@@ -31,8 +31,27 @@ export function addToHistory(
   query: string,
   options: AddToHistoryOptions = {},
 ): SearchHistory {
-  // Stub implementation so the app compiles; replace this with real logic.
-  throw new Error("addToHistory() not implemented yet");
+  const max = options.maxEntries ?? 10;
+  const trimmed = query.trim();
+  if (!trimmed) {
+    // ignore empty queries
+    return history.slice();
+  }
+
+  const now = Date.now();
+  // keep history newest-first for easy slicing
+  if (history.length > 0 && history[0].query === trimmed) {
+    // update timestamp of the most recent entry
+    const updated: SearchQuery = { query: trimmed, timestamp: now };
+    return [updated, ...history.slice(1)];
+  }
+
+  const newEntry: SearchQuery = { query: trimmed, timestamp: now };
+  const newHistory = [newEntry, ...history];
+  if (newHistory.length > max) {
+    return newHistory.slice(0, max);
+  }
+  return newHistory;
 }
 
 /**
@@ -45,7 +64,8 @@ export function addToHistory(
  *   `addToHistory` implementation does not already enforce this.
  */
 export function getRecentQueries(history: SearchHistory): string[] {
-  // Stub implementation so the app compiles; replace this with real logic.
-  throw new Error("getRecentQueries() not implemented yet");
+  // since history is maintained newest-first, we can simply map
+  // the query strings; duplicates are already handled by addToHistory.
+  return history.map((h) => h.query);
 }
 
